@@ -1,0 +1,129 @@
+<%layout("/layouts/boilerplate")%>
+<body>
+    <div class="row mt-3">
+        <div class="col-8 offset-3">
+    <h3>
+      <%= listing.title %>  
+    </h3>
+        </div>
+<div class="card col-6 offset-3 show-card">
+    <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
+  <div class="card-body">
+    <p class="card-text">
+        <br/>
+        <%= listing.description%><br/>
+         &#8377;
+  <%= listing.price ? listing.price.toLocaleString("en-IN") : "Price Not Available" %><br/>
+        <%= listing.country%><br/>
+        <%= listing.location%>
+    </p>
+  </div>
+</div>
+    <br/>
+    <br/>
+    <% if(currUser && listing.owner && listing.owner._id.equals(currUser._id)) { %>
+
+<div class="btns">
+     <a href="/listings/<%= listing.id %>/edit"
+         class="btn btn-dark col-1 offset-3 edit-btn">
+         Edit
+     </a>
+
+     <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
+         <button class="btn btn-dark offset-5">
+             Delete
+         </button>
+     </form>
+</div>
+
+<% } %>
+    </form>
+    </div>
+<div class="col-6 offset-3 mb-3">
+    <hr>
+
+    <h4>Leave a Review</h4>
+
+    <form
+        action="/listings/<%= listing._id %>/reviews"
+        method="POST"
+        class="needs-validation"
+        novalidate
+    >
+
+        <div class="mb-3 mt-3">
+            <label for="rating" class="form-label">Rating</label>
+            <input
+                type="range"
+                min="1"
+                max="5"
+                id="rating"
+                name="review[rating]"
+                class="form-range"
+                required
+            >
+        </div>
+
+        <div class="mb-3 mt-3">
+            <label for="comment" class="form-label">Comments</label>
+
+            <textarea
+                name="review[comment]"
+                id="comment"
+                class="form-control"
+                required
+            ></textarea>
+
+            <div class="invalid-feedback">
+                Please enter a review.
+            </div>
+        </div>
+
+        <button class="btn btn-outline-dark">
+            Submit
+        </button>
+
+    </form>
+
+    <hr class="mt-4">
+
+    <h4 class="mb-3">All Reviews</h4>
+
+    <div class="row">
+
+        <% for(let review of listing.reviews){ %>
+
+            <div class="col-md-6 mb-3">
+
+                <div class="card shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <span class="badge bg-dark mb-2">
+                            ⭐ <%= review.rating %>/5
+                        </span>
+
+                        <p class="card-text mt-2">
+                            <%= review.comment %>
+                        </p>
+
+                        <form
+                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                            method="POST"
+                        >
+                            <button class="btn btn-danger btn-sm">
+                                Delete
+                            </button>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <% } %>
+
+    </div>
+
+</div>
