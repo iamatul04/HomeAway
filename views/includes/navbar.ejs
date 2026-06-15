@@ -14,7 +14,7 @@
         <li class="nav-item">
           <a class="nav-link" href="/listings">All Listings</a>
         </li>
-       <% if(currUser) { %>
+       <% if(typeof currUser !== 'undefined' && currUser) { %>
 <li class="nav-item">
     <a class="nav-link" href="/listings/new">New Listing</a>
 </li>
