@@ -249,9 +249,8 @@ app.post("/listings/:id/reviews", async (req, res) => {
 // });
 
 
-// 404 handler (must be LAST route)
-app.get("/", (req,res)=>{
-    res.send("I am Root");
+app.get("/", (req, res) => {
+    res.redirect("/listings");
 });
 
 app.get("/test", (req, res) => {
